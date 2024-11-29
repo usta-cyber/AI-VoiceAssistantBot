@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Assistant Bot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Botmer Voice Assistant Bot</h1>
+    <div id="chatWindow">
+        <p><strong>Bot:</strong> {{ welcome_message }}</p>
+    </div>
+    <div>
+        <button id="recordAudio">Record and Ask</button>
+    </div>
+
+    <script>
+        $('#recordAudio').click(function() {
+            $('#chatWindow').append('<p><strong>You:</strong> Recording...</p>');
+
+            $.ajax({
+                url: '/record',
+                type: 'POST',
+                success: function(data) {
+                    $('#chatWindow').append('<p><strong>Bot:</strong> ' + data.response + '</p>');
+                },
+                error: function() {
+                    $('#chatWindow').append('<p><strong>Bot:</strong> There was an error recording your audio.</p>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
